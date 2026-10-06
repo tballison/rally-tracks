@@ -182,6 +182,19 @@ class TestSearchAutoscaleSchedule:
         assert len(steps) == 8
         assert all(s["warmup-time-period"] >= 1 for s in steps)
 
+    @pytest.mark.parametrize("throughputs", [[-1], [100]])
+    def test_random_query_by_default(self, throughputs):
+        steps = render_search({"as_phases": 1, "as_search_clients": [1], "as_search_target_throughputs": throughputs})
+        assert all(s["operation"]["random-query"] is True for s in steps)
+
+    @pytest.mark.parametrize("throughputs", [[-1], [100]])
+    def test_as_random_query_false_uses_query_file(self, throughputs):
+        steps = render_search(
+            {"as_phases": 1, "as_search_clients": [1], "as_search_target_throughputs": throughputs, "as_random_query": False}
+        )
+        assert len(steps) == 2
+        assert all(s["operation"]["random-query"] is False for s in steps)
+
 
 # --- ingest-search-autoscale-schedule.json ---
 

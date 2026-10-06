@@ -49,6 +49,7 @@
 {%- set p_as_search_target_throughputs = (as_search_target_throughputs | default([-1]))%}
 {%- set p_as_settings = (as_settings | default([{}]))%}
 {%- set p_as_settings_retries = ([as_settings_retries | default(3) | int, 0] | max)%}
+{%- set p_as_random_query = (as_random_query | default(true))%}
 {%- for i in range(p_as_phases) %}
   {%- set phase_settings = p_as_settings[i % (p_as_settings|length)] %}
   {%- if phase_settings %}
@@ -69,7 +70,7 @@
   "operation": {
     "operation-type": "search",
     "param-source": "knn-param-source",
-    "random-query": true,
+    "random-query": {{p_as_random_query | tojson}},
     "dims": 1024,
     "k": 10,
     "num-candidates": 100,
@@ -90,7 +91,7 @@
   "operation": {
     "operation-type": "search",
     "param-source": "knn-param-source",
-    "random-query": true,
+    "random-query": {{p_as_random_query | tojson}},
     "dims": 1024,
     "k": 100,
     "num-candidates": 500,
@@ -112,7 +113,7 @@
   "operation": {
     "operation-type": "search",
     "param-source": "knn-param-source",
-    "random-query": true,
+    "random-query": {{p_as_random_query | tojson}},
     "dims": 1024,
     "k": 10,
     "num-candidates": 100,
@@ -134,7 +135,7 @@
   "operation": {
     "operation-type": "search",
     "param-source": "knn-param-source",
-    "random-query": true,
+    "random-query": {{p_as_random_query | tojson}},
     "dims": 1024,
     "k": 100,
     "num-candidates": 500,

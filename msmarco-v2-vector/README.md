@@ -181,6 +181,7 @@ When `as_ingest_target_throughputs` is a positive number, the ingest throughput 
     - `as_search_target_throughputs` (default: [-1])
     - `as_settings` (default: [{}])
     - `as_settings_retries` (default: 3)
+    - `as_random_query` (default: true) If `true` search with random normalized vectors. If `false` search with the real MS MARCO query vectors in `queries.json.bz2`
 
 When `as_search_target_throughputs` is a positive number, the search throughput formula in documents per second is `search_size * as_search_target_throughputs`.
 
