@@ -182,6 +182,23 @@ class TestSearchAutoscaleSchedule:
         assert len(steps) == 8
         assert all(s["warmup-time-period"] >= 1 for s in steps)
 
+    def test_k100_target_throughput_defaults_to_shared_target(self):
+        steps = render_search({"as_phases": 1, "as_search_clients": [64], "as_search_target_throughputs": [340]})
+        assert [s["target-throughput"] for s in steps] == [340, 340]
+
+    def test_k100_target_throughput_override(self):
+        steps = render_search(
+            {
+                "as_phases": 2,
+                "as_search_clients": [64],
+                "as_search_target_throughputs": [340, 430],
+                "as_search_target_throughputs_k100": [170, 215],
+            }
+        )
+        assert [s["target-throughput"] for s in steps] == [340, 170, 430, 215]
+        assert steps[1]["name"] == "search-1-c64-s100-t170"
+        assert steps[0]["name"] == "search-1-c64-s10-t340"
+
     @pytest.mark.parametrize("throughputs", [[-1], [100]])
     def test_random_query_by_default(self, throughputs):
         steps = render_search({"as_phases": 1, "as_search_clients": [1], "as_search_target_throughputs": throughputs})

@@ -179,6 +179,7 @@ When `as_ingest_target_throughputs` is a positive number, the ingest throughput 
     - `as_time_periods` (default: [1800])
     - `as_search_clients` (default: [1,2,4,8,16])
     - `as_search_target_throughputs` (default: [-1])
+    - `as_search_target_throughputs_k100` (default: `as_search_target_throughputs`) Separate target throughput for the k=100 task, which costs roughly twice the k=10 task. Only used when the phase's `as_search_target_throughputs` value is positive
     - `as_settings` (default: [{}])
     - `as_settings_retries` (default: 3)
     - `as_random_query` (default: true) If `true` search with random normalized vectors. If `false` search with the real MS MARCO query vectors in `queries.json.bz2`
